@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Background="#f1f5f9">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/ButtonStyles.xaml" />
+                <ResourceDictionary Source="../Resources/ScrollStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -17,16 +27,42 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-            <TextBlock Text="Side" />
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+            <TextBlock
+                DockPanel.Dock="Top"
+                Text="FlyFigures" 
+                FontSize="20" 
+                FontWeight="ExtraBold" 
+                HorizontalAlignment="Center" 
+                Margin="20"
+                Foreground="#94a3b8" />
+            <ScrollViewer 
+                DockPanel.Dock="Top" 
+                Style="{StaticResource MinimalisticScrollViewer}" 
+                VerticalScrollBarVisibility="Auto" 
+                Margin="20 0 20 20">
+                <StackPanel>
+                    <TextBlock Text="Figure1" />
+                    <TextBlock Text="Figure2" />
+                    <TextBlock Text="Figure3" />
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+        
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Style="{StaticResource FigureButton}">
+                <TextBlock Text="Text" />
+            </Button>
+            <Button Style="{StaticResource FigureButton}">
+                <TextBlock Text="Text" />
+            </Button>
+            <Button Style="{StaticResource FigureButton}">
+                <TextBlock Text="Text" />
+            </Button>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Grid.Row="0">
-            <TextBlock Text="Header" />
-        </StackPanel>
-        
-        <Border Grid.Column="1" Grid.Row="1" Background="#fff" CornerRadius="10 0 0 0" Padding="20">
-            <TextBlock Text="Graphics" />
+        <Border Grid.Column="1" Grid.Row="1" Background="#fff" CornerRadius="15 0 0 0">
+            <Canvas></Canvas>
         </Border>
     </Grid>
 </Window>
