@@ -27,4 +27,4 @@ public class MovableEllipse : MovableFigure
         context,
         EllipseConstants.Instance)
     {}
-}
+}  

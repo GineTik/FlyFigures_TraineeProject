@@ -44,11 +44,13 @@
                 Style="{StaticResource MinimalisticScrollViewer}" 
                 VerticalScrollBarVisibility="Auto" 
                 Margin="20 0 20 20">
-                <StackPanel>
-                    <TextBlock Text="Figure1" />
-                    <TextBlock Text="Figure2" />
-                    <TextBlock Text="Figure3" />
-                </StackPanel>
+                <ItemsControl ItemsSource="{Binding NameOfAddedFigures}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </DockPanel>
         
@@ -57,17 +59,15 @@
                 Style="{StaticResource FigureButton}"
                 Command="{Binding AddFigureCommand}"
                 CommandParameter="{x:Static local:AvailableFigures.Ellipse}">
-                <Canvas>
-                    <ContentControl Content="{Binding StyledIconEllipse}" />
-                </Canvas>
+                <ContentControl
+                    Content="{x:Static figures:EllipseConstants.Icon}" />
             </Button>
             <Button
                 Style="{StaticResource FigureButton}"
                 Command="{Binding AddFigureCommand}"
                 CommandParameter="{x:Static local:AvailableFigures.Triangle}">
-                <Canvas>
-                    <ContentControl Content="{Binding StyledIconTriangle}" />
-                </Canvas>
+                <ContentControl
+                    Content="{x:Static figures:TriangleConstants.Icon}" />
             </Button>
         </StackPanel>
         
