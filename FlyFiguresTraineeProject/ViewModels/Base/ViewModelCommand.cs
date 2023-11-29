@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace FlyFiguresTraineeProject.ViewModels.Base;
 
-public class ViewModelCommand
+public class ViewModelCommand : ICommand
 {
     private readonly Action<object?> _executeAction;
     private readonly Predicate<object?>? _canExecuteAction;

@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyFiguresTraineeProject"
+        xmlns:vm="clr-namespace:FlyFiguresTraineeProject.ViewModels"
+        xmlns:figures="clr-namespace:FlyFiguresTraineeProject.Figures"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        Background="#f1f5f9">
+        Background="#f1f5f9"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     
     <Window.Resources>
         <ResourceDictionary>
@@ -50,19 +53,30 @@
         </DockPanel>
         
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Style="{StaticResource FigureButton}">
-                <TextBlock Text="Text" />
+            <Button
+                Style="{StaticResource FigureButton}"
+                Command="{Binding AddFigureCommand}"
+                CommandParameter="{x:Static local:AvailableFigures.Ellipse}">
+                <Canvas>
+                    <ContentControl Content="{Binding StyledIconEllipse}" />
+                </Canvas>
             </Button>
-            <Button Style="{StaticResource FigureButton}">
-                <TextBlock Text="Text" />
-            </Button>
-            <Button Style="{StaticResource FigureButton}">
-                <TextBlock Text="Text" />
+            <Button
+                Style="{StaticResource FigureButton}"
+                Command="{Binding AddFigureCommand}"
+                CommandParameter="{x:Static local:AvailableFigures.Triangle}">
+                <Canvas>
+                    <ContentControl Content="{Binding StyledIconTriangle}" />
+                </Canvas>
             </Button>
         </StackPanel>
         
-        <Border Grid.Column="1" Grid.Row="1" Background="#fff" CornerRadius="15 0 0 0">
-            <Canvas></Canvas>
+        <Border
+            Grid.Column="1" 
+            Grid.Row="1" 
+            Background="#fff" 
+            CornerRadius="15 0 0 0">
+            <ContentControl Content="{Binding Canvas}"/>
         </Border>
     </Grid>
 </Window>
