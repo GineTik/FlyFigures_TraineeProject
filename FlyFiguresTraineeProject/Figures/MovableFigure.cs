@@ -11,6 +11,10 @@ public abstract class MovableFigure
     private readonly double _speed;
     private Point _direction;
     private Point _currentPosition;
+    
+    protected Shape Shape { get; }
+    private Point ActualExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
+    public abstract string LocalizedName { get; }
 
     protected MovableFigure(Canvas context, Shape shape)
     {
@@ -21,9 +25,6 @@ public abstract class MovableFigure
 
         Shape = shape;
     }
-    
-    protected Shape Shape { get; }
-    private Point ActualExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     
     public void Move()
     {
@@ -52,8 +53,6 @@ public abstract class MovableFigure
         if (_context.Children.Contains(Shape) == false)
             _context.Children.Add(Shape);
     }
-
-    public abstract string LocalizedName { get; }
     
     protected virtual void TouchedBoundary() {}
 }

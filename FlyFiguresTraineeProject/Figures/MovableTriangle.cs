@@ -32,9 +32,9 @@ public static class TriangleConstants
 
 public class MovableTriangle : MovableFigure
 {
+    public override string LocalizedName => "Трикутник";
+    
     public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance)
     {
     }
-    
-    public override string LocalizedName => "Трикутник";
 }

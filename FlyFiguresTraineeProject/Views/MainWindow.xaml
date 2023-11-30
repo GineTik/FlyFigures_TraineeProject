@@ -54,29 +54,51 @@
             </ScrollViewer>
         </DockPanel>
         
-        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button
-                Style="{StaticResource FigureButton}"
-                Command="{Binding AddFigureCommand}"
-                CommandParameter="{x:Type figures:MovableEllipse}">
-                <ContentControl
-                    Content="{x:Static figures:EllipseConstants.Icon}" />
-            </Button>
-            <Button
-                Style="{StaticResource FigureButton}"
-                Command="{Binding AddFigureCommand}"
-                CommandParameter="{x:Type figures:MovableTriangle}">
-                <ContentControl
-                    Content="{x:Static figures:TriangleConstants.Icon}" />
-            </Button>
-            <Button
-                Style="{StaticResource FigureButton}"
-                Command="{Binding AddFigureCommand}"
-                CommandParameter="{x:Type figures:MovableRectangle}">
-                <ContentControl
-                    Content="{x:Static figures:RectangleConstants.Icon}" />
-            </Button>
-        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <Button
+                    Style="{StaticResource FigureButton}"
+                    Command="{Binding AddFigureCommand}"
+                    CommandParameter="{x:Type figures:MovableEllipse}">
+                    <ContentControl
+                        Content="{x:Static figures:EllipseConstants.Icon}" />
+                </Button>
+                <Button
+                    Style="{StaticResource FigureButton}"
+                    Command="{Binding AddFigureCommand}"
+                    CommandParameter="{x:Type figures:MovableTriangle}">
+                    <ContentControl
+                        Content="{x:Static figures:TriangleConstants.Icon}" />
+                </Button>
+                <Button
+                    Style="{StaticResource FigureButton}"
+                    Command="{Binding AddFigureCommand}"
+                    CommandParameter="{x:Type figures:MovableRectangle}">
+                    <ContentControl
+                        Content="{x:Static figures:RectangleConstants.Icon}" />
+                </Button>
+            </StackPanel>
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="1"
+                    Style="{StaticResource FigureButton}"
+                    Command="{Binding ClearFiguresCommand}"
+                >
+                    <TextBlock Text="Clear" />
+                </Button>
+            </Grid>
+        </Grid>
         
         <Border
             Grid.Column="1" 

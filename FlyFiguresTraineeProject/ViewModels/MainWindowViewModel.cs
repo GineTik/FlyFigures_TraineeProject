@@ -21,6 +21,20 @@ public class MainWindowViewModel : ViewModelBase
     private readonly Canvas _canvas = null!;
     private readonly ICollection<string> _nameOfAddedFigures = null!;
     private readonly ICollection<MovableFigure> _figures;
+    private readonly DispatcherTimer _dispatcherTimer;
+    
+    public ViewModelCommand AddFigureCommand { get; }
+    public ViewModelCommand ClearFiguresCommand { get; }
+    public Canvas Canvas
+    {
+        get => _canvas;
+        private init => SetField(ref _canvas, value);
+    }
+    public ICollection<string> NameOfAddedFigures
+    {
+        get => _nameOfAddedFigures;
+        private init => SetField(ref _nameOfAddedFigures, value);
+    }
     
     public MainWindowViewModel()
     {
@@ -29,25 +43,11 @@ public class MainWindowViewModel : ViewModelBase
         _figures = new List<MovableFigure>();
 
         AddFigureCommand = new ViewModelCommand(AddFigure);
+        ClearFiguresCommand = new ViewModelCommand(ClearFigures);
         
-        var dispatcherTimer = new DispatcherTimer();
-        dispatcherTimer.Tick += MoveAndDrawFigures;
-        dispatcherTimer.Interval = TimeSpan.FromMicroseconds(1000);
-        dispatcherTimer.Start();
-    }
-
-    public ViewModelCommand AddFigureCommand { get; }
-    
-    public Canvas Canvas
-    {
-        get => _canvas;
-        private init => SetField(ref _canvas, value);
-    }
-
-    public ICollection<string> NameOfAddedFigures
-    {
-        get => _nameOfAddedFigures;
-        private init => SetField(ref _nameOfAddedFigures, value);
+        _dispatcherTimer = new DispatcherTimer();
+        _dispatcherTimer.Tick += MoveAndDrawFigures;
+        _dispatcherTimer.Interval = TimeSpan.FromMicroseconds(1000);
     }
 
     private void MoveAndDrawFigures(object? sender, EventArgs e)
@@ -63,10 +63,21 @@ public class MainWindowViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(figure);
 
+        if (_dispatcherTimer.IsEnabled == false)
+            _dispatcherTimer.Start();
+        
         var figureFactory = AvailableFigureFactories[(Type)figure];
         var movableFigure = figureFactory.Factory.Invoke(Canvas);
         
         NameOfAddedFigures.Add(movableFigure.LocalizedName + " додано");
         _figures.Add(movableFigure);
+    }
+    
+    private void ClearFigures(object? _)
+    {
+        Canvas.Children.Clear();
+        _figures.Clear();
+        _nameOfAddedFigures.Clear();
+        _dispatcherTimer.Stop();
     }
 }

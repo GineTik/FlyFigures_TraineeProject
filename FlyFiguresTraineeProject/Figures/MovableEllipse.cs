@@ -26,15 +26,15 @@ public class MovableEllipse : MovableFigure
 {
     private static readonly ICollection<string> Colors = new[] { "#ffaacc", "#000", "#004ac2" }; 
     private int _currentColorIndex;
-
+    
+    public override string LocalizedName => "Коло";
+    
     public MovableEllipse(Canvas context) : base(
         context,
         EllipseConstants.Instance)
     {
         SetColor(0);
     }
-    
-    public override string LocalizedName => "Коло";
 
     protected override void TouchedBoundary()
     {
