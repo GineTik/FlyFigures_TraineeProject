@@ -66,9 +66,9 @@
                 <Button
                     Style="{StaticResource FigureButton}"
                     Command="{Binding AddFigureCommand}"
-                    CommandParameter="{x:Type figures:MovableEllipse}">
+                    CommandParameter="{x:Type figures:MovableCircle}">
                     <ContentControl
-                        Content="{x:Static figures:EllipseConstants.Icon}" />
+                        Content="{x:Static figures:CircleConstants.Icon}" />
                 </Button>
                 <Button
                     Style="{StaticResource FigureButton}"

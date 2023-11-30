@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -15,7 +16,7 @@ public static class TriangleConstants
             new Point(0, 0),
             new Point(80, 50),
             new Point(0, 100)
-        })
+        }),
     };
     
     public static Polygon Icon => new()
@@ -33,8 +34,18 @@ public static class TriangleConstants
 public class MovableTriangle : MovableFigure
 {
     public override string LocalizedName => "Трикутник";
-    
+
     public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance)
     {
+    }
+
+    protected override void TouchedBoundary()
+    {
+        Speed = 7;
+        Task.Run(async () =>
+        {
+            await Task.Delay(300);
+            Speed = 3;
+        });
     }
 }

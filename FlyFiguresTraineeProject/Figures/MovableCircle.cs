@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 
 namespace FlyFiguresTraineeProject.Figures;
 
-public static class EllipseConstants
+public static class CircleConstants
 {
     public static Ellipse Instance => new()
     {
@@ -22,16 +22,16 @@ public static class EllipseConstants
     };
 }
 
-public class MovableEllipse : MovableFigure
+public class MovableCircle : MovableFigure
 {
     private static readonly ICollection<string> Colors = new[] { "#ffaacc", "#000", "#004ac2" }; 
     private int _currentColorIndex;
     
     public override string LocalizedName => "Коло";
     
-    public MovableEllipse(Canvas context) : base(
+    public MovableCircle(Canvas context) : base(
         context,
-        EllipseConstants.Instance)
+        CircleConstants.Instance)
     {
         SetColor(0);
     }

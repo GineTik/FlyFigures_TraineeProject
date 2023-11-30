@@ -8,37 +8,36 @@ namespace FlyFiguresTraineeProject.Figures;
 public abstract class MovableFigure
 {
     private readonly Canvas _context;
-    private readonly double _speed;
     private Point _direction;
-    private Point _currentPosition;
     
+    protected double Speed { get; set; }
+    protected Point CurrentPosition { get; set; }
     protected Shape Shape { get; }
-    private Point ActualExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
+    protected Point ActualExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     public abstract string LocalizedName { get; }
 
     protected MovableFigure(Canvas context, Shape shape)
     {
         _direction = RandomHelper.NextDirection();
-        _currentPosition = new Point((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
         _context = context;
-        _speed = 3;
-
+        CurrentPosition = new Point((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
+        Speed = 3;
         Shape = shape;
     }
     
     public void Move()
     {
-        _currentPosition = new Point(
-            _currentPosition.X + _direction.X * _speed,
-            _currentPosition.Y + _direction.Y * _speed);
+        CurrentPosition = new Point(
+            CurrentPosition.X + _direction.X * Speed,
+            CurrentPosition.Y + _direction.Y * Speed);
 
-        if (_currentPosition.X <= 0 || _currentPosition.X + Shape.ActualWidth >= ActualExtremeLimit.X)
+        if (CurrentPosition.X <= 0 || CurrentPosition.X + Shape.ActualWidth >= ActualExtremeLimit.X)
         {
             _direction.X = -_direction.X;
             TouchedBoundary();
         }
 
-        if (_currentPosition.Y <= 0 || _currentPosition.Y + Shape.ActualHeight >= ActualExtremeLimit.Y)
+        if (CurrentPosition.Y <= 0 || CurrentPosition.Y + Shape.ActualHeight >= ActualExtremeLimit.Y)
         {
             _direction.Y = -_direction.Y;
             TouchedBoundary();
@@ -47,8 +46,8 @@ public abstract class MovableFigure
 
     public void Draw()
     {
-        Canvas.SetTop(Shape, _currentPosition.Y);
-        Canvas.SetLeft(Shape, _currentPosition.X);
+        Canvas.SetTop(Shape, CurrentPosition.Y);
+        Canvas.SetLeft(Shape, CurrentPosition.X);
 
         if (_context.Children.Contains(Shape) == false)
             _context.Children.Add(Shape);

@@ -13,7 +13,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private static Dictionary<Type, FigureFactory> AvailableFigureFactories => new()
     {
-        { typeof(MovableEllipse), new FigureFactory { Factory = (canvas) => new MovableEllipse(canvas) } },
+        { typeof(MovableCircle), new FigureFactory { Factory = (canvas) => new MovableCircle(canvas) } },
         { typeof(MovableTriangle), new FigureFactory { Factory = (canvas) => new MovableTriangle(canvas) } },
         { typeof(MovableRectangle), new FigureFactory { Factory = (canvas) => new MovableRectangle(canvas) } }
     };
