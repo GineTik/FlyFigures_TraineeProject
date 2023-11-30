@@ -4,8 +4,8 @@ using FlyFiguresTraineeProject.Figures;
 
 namespace FlyFiguresTraineeProject.Models;
 
-public class FigureFactoryWithLogMessage
+public class FigureFactory
 {
-    public string LogMessage { get; set; } = null!;
+    public string LocalizedName { get; set; } = null!;
     public Func<Canvas, MovableFigure> Factory { get; set; } = null!;
 }

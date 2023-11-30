@@ -13,17 +13,19 @@ public abstract class MovableFigure
     private Point _currentPosition;
     private readonly Shape _shape;
     private readonly double _speed;
-    
+
     protected MovableFigure(Canvas context, Shape shape)
     {
-        _direction = new Point(RandomHelper.NextDirection(), RandomHelper.NextDirection());
+        _direction = RandomHelper.NextDirection();
         _currentPosition = new Point((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
         _shape = shape;
         _context = context;
-        _speed = 0.1;
+        _speed = 3;
             
         _context.Children.Add(_shape);
     }
+    
+    public abstract string LocalizedName { get; }
     
     private Point ActualExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     

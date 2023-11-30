@@ -58,16 +58,23 @@
             <Button
                 Style="{StaticResource FigureButton}"
                 Command="{Binding AddFigureCommand}"
-                CommandParameter="{x:Static local:AvailableFigures.Ellipse}">
+                CommandParameter="{x:Type figures:MovableEllipse}">
                 <ContentControl
                     Content="{x:Static figures:EllipseConstants.Icon}" />
             </Button>
             <Button
                 Style="{StaticResource FigureButton}"
                 Command="{Binding AddFigureCommand}"
-                CommandParameter="{x:Static local:AvailableFigures.Triangle}">
+                CommandParameter="{x:Type figures:MovableTriangle}">
                 <ContentControl
                     Content="{x:Static figures:TriangleConstants.Icon}" />
+            </Button>
+            <Button
+                Style="{StaticResource FigureButton}"
+                Command="{Binding AddFigureCommand}"
+                CommandParameter="{x:Type figures:MovableRectangle}">
+                <ContentControl
+                    Content="{x:Static figures:RectangleConstants.Icon}" />
             </Button>
         </StackPanel>
         

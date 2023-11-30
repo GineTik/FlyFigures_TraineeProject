@@ -11,10 +11,11 @@ namespace FlyFiguresTraineeProject.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private static Dictionary<AvailableFigures, FigureFactoryWithLogMessage> AvailableFigureFactories => new()
+    private static Dictionary<Type, FigureFactory> AvailableFigureFactories => new()
     {
-        { AvailableFigures.Ellipse, new FigureFactoryWithLogMessage { LogMessage = "Еліпс додано", Factory = (canvas) => new MovableEllipse(canvas) } },
-        { AvailableFigures.Triangle, new FigureFactoryWithLogMessage { LogMessage = "Трикутник додано", Factory = (canvas) => new MovableTriangle(canvas) } }
+        { typeof(MovableEllipse), new FigureFactory { Factory = (canvas) => new MovableEllipse(canvas) } },
+        { typeof(MovableTriangle), new FigureFactory { Factory = (canvas) => new MovableTriangle(canvas) } },
+        { typeof(MovableRectangle), new FigureFactory { Factory = (canvas) => new MovableRectangle(canvas) } }
     };
     
     private readonly Canvas _canvas = null!;
@@ -62,9 +63,10 @@ public class MainWindowViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(figure);
 
-        var figureFactoryWithName = AvailableFigureFactories[(AvailableFigures)figure];
-
-        NameOfAddedFigures.Add(figureFactoryWithName.LogMessage);
-        _figures.Add(figureFactoryWithName.Factory.Invoke(Canvas));
+        var figureFactory = AvailableFigureFactories[(Type)figure];
+        var movableFigure = figureFactory.Factory.Invoke(Canvas);
+        
+        NameOfAddedFigures.Add(movableFigure.LocalizedName + " додано");
+        _figures.Add(movableFigure);
     }
 }

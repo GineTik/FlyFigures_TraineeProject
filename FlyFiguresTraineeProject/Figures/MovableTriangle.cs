@@ -35,4 +35,6 @@ public class MovableTriangle : MovableFigure
     public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance)
     {
     }
+    
+    public override string LocalizedName => "Трикутник";
 }

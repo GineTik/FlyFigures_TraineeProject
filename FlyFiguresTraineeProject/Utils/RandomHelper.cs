@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace FlyFiguresTraineeProject.Utils;
 
@@ -10,13 +11,27 @@ public static class RandomHelper
 
     public static int Next(int min, int max, ICollection<int> exclude)
     {
-        var range = Enumerable.Range(1, 100).Where(i => !exclude.Contains(i));
-        var index = Random.Next(0, 100 - exclude.Count);
-        return range.ElementAt(index);
+        int randomNumber;
+        
+        do {
+            randomNumber = Random.Next(min, max);
+        } while(exclude.Contains(randomNumber));
+        
+        return randomNumber;
     }
 
-    public static double NextDirection()
+    public static Point NextDirection()
     {
-        return Next(-2, 1, new[] { 0 });
+        var x = NextWithoutZero() * (Random.NextDouble() + 0.01);
+        var y = NextWithoutZero() * (Random.NextDouble() + 0.01);
+
+        return x < 0.5 
+            ? new Point(x, NextWithoutZero()) 
+            : new Point(NextWithoutZero(), y);
+    }
+
+    private static int NextWithoutZero()
+    {
+        return Next(-1, 2, new[] { 0 });
     }
 }

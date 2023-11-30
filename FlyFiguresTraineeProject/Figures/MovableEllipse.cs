@@ -27,4 +27,6 @@ public class MovableEllipse : MovableFigure
         context,
         EllipseConstants.Instance)
     {}
-}  
+    
+    public override string LocalizedName => "Коло";
+}
