@@ -33,6 +33,8 @@ public static class TriangleConstants
 
 public class MovableTriangle : MovableFigure
 {
+    private static int AccelerationDelayInMilliseconds => 300;
+    private static int AccelerationSpeed => 7;
     public override string LocalizedName => "Трикутник";
 
     public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance)
@@ -41,11 +43,11 @@ public class MovableTriangle : MovableFigure
 
     protected override void TouchedBoundary()
     {
-        Speed = 7;
+        Speed = AccelerationSpeed;
         Task.Run(async () =>
         {
-            await Task.Delay(300);
-            Speed = 3;
+            await Task.Delay(AccelerationDelayInMilliseconds);
+            Speed = DefaultSpeed;
         });
     }
 }

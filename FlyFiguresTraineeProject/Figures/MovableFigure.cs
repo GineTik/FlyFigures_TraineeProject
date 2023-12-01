@@ -7,37 +7,39 @@ namespace FlyFiguresTraineeProject.Figures;
 
 public abstract class MovableFigure
 {
+    protected static int DefaultSpeed => 3;
+    
     private readonly Canvas _context;
     private Point _direction;
     
-    protected double Speed { get; set; }
+    protected Point ExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     protected Point CurrentPosition { get; set; }
+    protected int Speed { get; set; }
     protected Shape Shape { get; }
-    protected Point ActualExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     public abstract string LocalizedName { get; }
 
     protected MovableFigure(Canvas context, Shape shape)
     {
-        _direction = RandomHelper.NextDirection();
         _context = context;
+        _direction = RandomHelper.NextDirection();
         CurrentPosition = new Point((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
-        Speed = 3;
+        Speed = DefaultSpeed;
         Shape = shape;
     }
-    
+
     public void Move()
     {
         CurrentPosition = new Point(
             CurrentPosition.X + _direction.X * Speed,
             CurrentPosition.Y + _direction.Y * Speed);
 
-        if (CurrentPosition.X <= 0 || CurrentPosition.X + Shape.ActualWidth >= ActualExtremeLimit.X)
+        if (CurrentPosition.X <= 0 || CurrentPosition.X + Shape.ActualWidth >= ExtremeLimit.X)
         {
             _direction.X = -_direction.X;
             TouchedBoundary();
         }
 
-        if (CurrentPosition.Y <= 0 || CurrentPosition.Y + Shape.ActualHeight >= ActualExtremeLimit.Y)
+        if (CurrentPosition.Y <= 0 || CurrentPosition.Y + Shape.ActualHeight >= ExtremeLimit.Y)
         {
             _direction.Y = -_direction.Y;
             TouchedBoundary();
