@@ -24,7 +24,7 @@ public static class CircleConstants
 
 public class MovableCircle : MovableFigure
 {
-    private static readonly ICollection<string> Colors = new[] { "#ffaacc", "#000", "#004ac2" }; 
+    private static readonly IList<string> Colors = new[] { "#ffaacc", "#000", "#004ac2" }; 
     private int _currentColorIndex;
     
     public override string LocalizedName => "Коло";
@@ -45,7 +45,7 @@ public class MovableCircle : MovableFigure
     private void SetColor(int colorIndex)
     {
         _currentColorIndex = colorIndex;
-        var color = Colors.ElementAt(_currentColorIndex);
+        var color = Colors[_currentColorIndex];
         Shape.Fill = (SolidColorBrush)new BrushConverter().ConvertFrom(color)!;
     }
 }
