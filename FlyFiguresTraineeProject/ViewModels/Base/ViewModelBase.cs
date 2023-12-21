@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace FlyFiguresTraineeProject.ViewModels.Base;
 
-public class ViewModelBase
+public class ViewModelBase : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

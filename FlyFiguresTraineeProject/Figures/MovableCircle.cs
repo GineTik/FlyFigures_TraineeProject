@@ -6,19 +6,12 @@ using System.Windows.Shapes;
 
 namespace FlyFiguresTraineeProject.Figures;
 
-public static class CircleConstants
+internal static class CircleConstants
 {
     public static Ellipse Instance => new()
     {
         Width = 50,
         Height = 50
-    };
-    
-    public static Ellipse Icon => new()
-    {
-        Fill = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffaacc")!,
-        Width = 20,
-        Height = 20
     };
 }
 
@@ -26,8 +19,6 @@ public class MovableCircle : MovableFigure
 {
     private static readonly IList<string> Colors = new[] { "#ffaacc", "#000", "#004ac2" }; 
     private int _currentColorIndex;
-    
-    public override string LocalizedName => "Коло";
     
     public MovableCircle(Canvas context) : base(
         context,

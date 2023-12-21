@@ -8,7 +8,7 @@ public class ViewModelCommand : ICommand
     private readonly Action<object?> _executeAction;
     private readonly Predicate<object?>? _canExecuteAction;
     
-    public ViewModelCommand(Action<object?> executeAction, Predicate<object?>? canExecuteAction = null)
+    public ViewModelCommand(Action<object> executeAction, Predicate<object?>? canExecuteAction = null)
     {
         _executeAction = executeAction;
         _canExecuteAction = canExecuteAction;

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using FlyFiguresTraineeProject.ViewModels;
+using WPFLocalizeExtension.Engine;
+using WPFLocalizeExtension.Providers;
 
 namespace FlyFiguresTraineeProject.Views
 {

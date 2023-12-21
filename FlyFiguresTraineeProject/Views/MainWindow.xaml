@@ -3,19 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FlyFiguresTraineeProject"
+        xmlns:converters="clr-namespace:FlyFiguresTraineeProject.Converters"
         xmlns:vm="clr-namespace:FlyFiguresTraineeProject.ViewModels"
         xmlns:figures="clr-namespace:FlyFiguresTraineeProject.Figures"
+        xmlns:metadata="clr-namespace:FlyFiguresTraineeProject.Figures.Metadata"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Background="#f1f5f9"
-        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:ResxLocalizationProvider.DefaultAssembly="FlyFiguresTraineeProject"
+        lex:ResxLocalizationProvider.DefaultDictionary="Language">
     
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/ButtonStyles.xaml" />
-                <ResourceDictionary Source="../Resources/ScrollStyles.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/ButtonStyles.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/ScrollStyles.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/ItemControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -44,10 +49,30 @@
                 Style="{StaticResource MinimalisticScrollViewer}" 
                 VerticalScrollBarVisibility="Auto" 
                 Margin="20 0 20 20">
-                <ItemsControl ItemsSource="{Binding NameOfAddedFigures}">
+                <ItemsControl 
+                    ItemsSource="{Binding Figures}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock 
+                                    Text="{lex:Loc {Binding ., 
+                                        Converter={converters:FigureLocalizationConverter}}}"
+                                    VerticalAlignment="Center"
+                                    Grid.Column="0"/>
+                                <Button
+                                    Style="{StaticResource ItemOfItemControlStyle}"
+                                    Content="{Binding InMotion, 
+                                        Converter={converters:InMotionConverter}}"
+                                    Command="{Binding DataContext.SwitchDisabledOfFigureCommand,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                    CommandParameter="{Binding}"
+                                    DockPanel.Dock="Right"
+                                    Grid.Column="1"/>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -63,27 +88,25 @@
             <StackPanel
                 Grid.Column="1"
                 Orientation="Horizontal">
-                <Button
-                    Style="{StaticResource FigureButton}"
-                    Command="{Binding AddFigureCommand}"
-                    CommandParameter="{x:Type figures:MovableCircle}">
-                    <ContentControl
-                        Content="{x:Static figures:CircleConstants.Icon}" />
-                </Button>
-                <Button
-                    Style="{StaticResource FigureButton}"
-                    Command="{Binding AddFigureCommand}"
-                    CommandParameter="{x:Type figures:MovableTriangle}">
-                    <ContentControl
-                        Content="{x:Static figures:TriangleConstants.Icon}" />
-                </Button>
-                <Button
-                    Style="{StaticResource FigureButton}"
-                    Command="{Binding AddFigureCommand}"
-                    CommandParameter="{x:Type figures:MovableRectangle}">
-                    <ContentControl
-                        Content="{x:Static figures:RectangleConstants.Icon}" />
-                </Button>
+                <ItemsControl ItemsSource="{Binding Source={x:Static metadata:ConfiguredFigureData.Data}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Style="{StaticResource FigureButton}"
+                                Command="{Binding DataContext.AddFigureCommand,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                CommandParameter="{Binding Value}">
+                                <ContentControl
+                                    Content="{Binding Value.Icon}" />
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>

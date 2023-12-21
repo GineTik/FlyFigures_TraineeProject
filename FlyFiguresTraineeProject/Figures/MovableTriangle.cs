@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Figures.Metadata;
 
 namespace FlyFiguresTraineeProject.Figures;
 
@@ -35,7 +37,6 @@ public class MovableTriangle : MovableFigure
 {
     private static int AccelerationDelayInMilliseconds => 300;
     private static int AccelerationSpeed => 7;
-    public override string LocalizedName => "Трикутник";
 
     public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance)
     {

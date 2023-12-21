@@ -24,8 +24,6 @@ public static class RectangleConstants
 
 public class MovableRectangle : MovableFigure
 {
-    public override string LocalizedName => "Прямокутник";
-    
     public MovableRectangle(Canvas context) : base(context, RectangleConstants.Instance)
     {
     }
