@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 using FlyFiguresTraineeProject.Figures;
-using FlyFiguresTraineeProject.Figures.Metadata;
+using FlyFiguresTraineeProject.Figures.Data;
 
 namespace FlyFiguresTraineeProject.Converters;
 

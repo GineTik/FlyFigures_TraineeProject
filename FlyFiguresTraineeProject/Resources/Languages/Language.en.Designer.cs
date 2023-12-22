@@ -60,6 +60,42 @@ namespace FlyFiguresTraineeProject.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        internal static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move.
+        /// </summary>
+        internal static string GoMove {
+            get {
+                return ResourceManager.GetString("GoMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string GoStop {
+            get {
+                return ResourceManager.GetString("GoStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Circle.
         /// </summary>
         internal static string MovableCircle {
@@ -83,6 +119,15 @@ namespace FlyFiguresTraineeProject.Resources.Languages {
         internal static string MovableTriangle {
             get {
                 return ResourceManager.GetString("MovableTriangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ukrainian.
+        /// </summary>
+        internal static string Ukrainian {
+            get {
+                return ResourceManager.GetString("Ukrainian", resourceCulture);
             }
         }
     }

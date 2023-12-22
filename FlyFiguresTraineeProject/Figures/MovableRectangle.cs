@@ -12,13 +12,6 @@ public static class RectangleConstants
         Width = 50,
         Height = 70
     };
-    
-    public static Rectangle Icon => new()
-    {
-        Fill = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffaacc")!,
-        Width = 15,
-        Height = 23
-    };
 }
 
 

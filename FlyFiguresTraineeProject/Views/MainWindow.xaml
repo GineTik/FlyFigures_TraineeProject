@@ -5,13 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:FlyFiguresTraineeProject.Converters"
         xmlns:vm="clr-namespace:FlyFiguresTraineeProject.ViewModels"
-        xmlns:figures="clr-namespace:FlyFiguresTraineeProject.Figures"
-        xmlns:metadata="clr-namespace:FlyFiguresTraineeProject.Figures.Metadata"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Background="#f1f5f9"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:data="clr-namespace:FlyFiguresTraineeProject.Figures.Data"
         lex:ResxLocalizationProvider.DefaultAssembly="FlyFiguresTraineeProject"
         lex:ResxLocalizationProvider.DefaultDictionary="Language">
     
@@ -21,6 +20,7 @@
                 <ResourceDictionary Source="../Resources/Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="../Resources/Styles/ScrollStyles.xaml" />
                 <ResourceDictionary Source="../Resources/Styles/ItemControlStyles.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/ComboboxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -65,9 +65,9 @@
                                     Grid.Column="0"/>
                                 <Button
                                     Style="{StaticResource ItemOfItemControlStyle}"
-                                    Content="{Binding InMotion, 
-                                        Converter={converters:InMotionConverter}}"
-                                    Command="{Binding DataContext.SwitchDisabledOfFigureCommand,
+                                    Content="{lex:Loc {Binding InMotion, 
+                                        Converter={converters:InMotionConverter}}}"
+                                    Command="{Binding DataContext.SwitchInMotionOfFigureCommand,
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                     CommandParameter="{Binding}"
                                     DockPanel.Dock="Right"
@@ -88,7 +88,7 @@
             <StackPanel
                 Grid.Column="1"
                 Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding Source={x:Static metadata:ConfiguredFigureData.Data}}">
+                <ItemsControl ItemsSource="{Binding Source={x:Static data:ConfiguredFigureData.Data}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" />
@@ -97,7 +97,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
-                                Style="{StaticResource FigureButton}"
+                                Style="{StaticResource HeaderButton}"
                                 Command="{Binding DataContext.AddFigureCommand,
                                     RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                 CommandParameter="{Binding Value}">
@@ -113,13 +113,27 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button
+                <StackPanel
                     Grid.Column="1"
-                    Style="{StaticResource FigureButton}"
-                    Command="{Binding ClearFiguresCommand}"
-                >
-                    <TextBlock Text="Clear" />
-                </Button>
+                    Orientation="Horizontal">
+                    <ComboBox 
+                        Style="{StaticResource HeaderCombobox}"
+                        ItemsSource="{Binding AvailableLanguages}"
+                        SelectedItem="{Binding SelectedLanguage}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{lex:Loc {Binding LanguageKey}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button
+                        Style="{StaticResource HeaderButton}"
+                        Command="{Binding ClearFiguresCommand}"
+                    >
+                        <TextBlock Text="{lex:Loc Clear}" />
+                    </Button>
+                </StackPanel>
             </Grid>
         </Grid>
         

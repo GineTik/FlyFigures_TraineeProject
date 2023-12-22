@@ -27,4 +27,19 @@
     <data name="MovableTriangle" xml:space="preserve">
         <value>Triangle</value>
     </data>
+    <data name="Ukrainian" xml:space="preserve">
+        <value>Ukrainian</value>
+    </data>
+    <data name="English" xml:space="preserve">
+        <value>English</value>
+    </data>
+    <data name="Clear" xml:space="preserve">
+        <value>Clear</value>
+    </data>
+    <data name="GoStop" xml:space="preserve">
+        <value>Stop</value>
+    </data>
+    <data name="GoMove" xml:space="preserve">
+        <value>Move</value>
+    </data>
 </root>

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
-namespace FlyFiguresTraineeProject.Figures.Metadata;
+namespace FlyFiguresTraineeProject.Figures.Data;
 
 public class FigureData
 {

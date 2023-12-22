@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace FlyFiguresTraineeProject.Figures.Metadata;
+namespace FlyFiguresTraineeProject.Figures.Data;
 
 public static class ConfiguredFigureData
 {
