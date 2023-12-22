@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FlyFiguresTraineeProject.Resources.Languages {
+namespace FlyFiguresTraineeProject.Languages.Resources {
     using System;
     
     
@@ -38,7 +38,7 @@ namespace FlyFiguresTraineeProject.Resources.Languages {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FlyFiguresTraineeProject.Resources.Languages.Language.en", typeof(Language_en).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FlyFiguresTraineeProject.Languages.Resources.Language.en", typeof(Language_en).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

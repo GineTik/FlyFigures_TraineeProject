@@ -5,22 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:FlyFiguresTraineeProject.Converters"
         xmlns:vm="clr-namespace:FlyFiguresTraineeProject.ViewModels"
+        xmlns:figuresData="clr-namespace:FlyFiguresTraineeProject.Figures.Data"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Background="#f1f5f9"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
-        xmlns:data="clr-namespace:FlyFiguresTraineeProject.Figures.Data"
         lex:ResxLocalizationProvider.DefaultAssembly="FlyFiguresTraineeProject"
         lex:ResxLocalizationProvider.DefaultDictionary="Language">
     
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Styles/ButtonStyles.xaml" />
-                <ResourceDictionary Source="../Resources/Styles/ScrollStyles.xaml" />
-                <ResourceDictionary Source="../Resources/Styles/ItemControlStyles.xaml" />
-                <ResourceDictionary Source="../Resources/Styles/ComboboxStyles.xaml" />
+                <ResourceDictionary Source="../Styles/ButtonStyles.xaml" />
+                <ResourceDictionary Source="../Styles/ScrollStyles.xaml" />
+                <ResourceDictionary Source="../Styles/ItemControlStyles.xaml" />
+                <ResourceDictionary Source="../Styles/ComboboxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -88,7 +88,7 @@
             <StackPanel
                 Grid.Column="1"
                 Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding Source={x:Static data:ConfiguredFigureData.Data}}">
+                <ItemsControl ItemsSource="{Binding Source={x:Static figuresData:ConfiguredFigureData.Data}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" />

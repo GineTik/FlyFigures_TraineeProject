@@ -13,17 +13,17 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Resources\Styles\ButtonStyles.xaml">
+      <Page Update="Styles\ButtonStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Resources\Styles\ItemControlStyles.xaml">
+      <Page Update="Styles\ItemControlStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Resources\Styles\ScrollStyles.xaml">
+      <Page Update="Styles\ScrollStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
@@ -47,14 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Resources\Languages\Language.en.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Language.en.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Languages\Language.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Language.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
       <EmbeddedResource Update="Languages\Resources\Language.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Language.Designer.cs</LastGenOutput>
@@ -66,12 +58,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Resources\Languages\Language.en.Designer.cs">
+      <Compile Update="Languages\Resources\Language.en.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>Language.en.resx</DependentUpon>
       </Compile>
-      <Compile Update="Resources\Languages\Language.Designer.cs">
+      <Compile Update="Languages\Resources\Language.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>Language.resx</DependentUpon>

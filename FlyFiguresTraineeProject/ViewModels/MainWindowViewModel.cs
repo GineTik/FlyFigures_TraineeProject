@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FlyFiguresTraineeProject.Figures;
@@ -48,6 +52,11 @@ public class MainWindowViewModel : ViewModelBase
         _dispatcherTimer.Tick += MoveAndDrawFigures;
         _dispatcherTimer.Interval = TimeSpan.FromMicroseconds(1000);
         _dispatcherTimer.Start();
+
+        // var rm = new ResourceManager("Language", Assembly.GetExecutingAssembly());
+        // Console.WriteLine(rm.GetString("GoMove"));
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("");
+        Console.WriteLine(Languages.Resources.Language.GoMove);
     }
 
     private void MoveAndDrawFigures(object? sender, EventArgs e)
