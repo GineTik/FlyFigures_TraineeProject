@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures.Data;
 
@@ -12,7 +13,7 @@ public static class ConfiguredFigureData
     {
         { 
             typeof(MovableCircle), new FigureData
-            { 
+            {
                 Icon = new Ellipse
                 {
                     Fill = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffaacc")!,
@@ -20,7 +21,8 @@ public static class ConfiguredFigureData
                     Height = 20
                 },
                 LocalizationKey = "MovableCircle",
-                Factory = (canvas) => new MovableCircle(canvas)
+                Factory = (canvas) => new MovableCircle(canvas),
+                FigureSnapshotType = typeof(MovableCircleMovableSnapshot)
             }
         },
         { 
@@ -33,7 +35,8 @@ public static class ConfiguredFigureData
                     Height = 23
                 },
                 LocalizationKey = "MovableRectangle",
-                Factory = (canvas) => new MovableRectangle(canvas)
+                Factory = (canvas) => new MovableRectangle(canvas),
+                FigureSnapshotType = typeof(MovableRectangleMovableSnapshot)
             }
         },
         { 
@@ -50,7 +53,8 @@ public static class ConfiguredFigureData
                     })
                 },
                 LocalizationKey = "MovableTriangle",
-                Factory = (canvas) => new MovableTriangle(canvas)
+                Factory = (canvas) => new MovableTriangle(canvas),
+                FigureSnapshotType = typeof(MovableTriangleMovableSnapshot)
             }
         }
     };

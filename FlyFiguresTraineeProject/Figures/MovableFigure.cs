@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 using FlyFiguresTraineeProject.Utils;
 
 namespace FlyFiguresTraineeProject.Figures;
@@ -11,12 +11,13 @@ public abstract class MovableFigure
     protected static int DefaultSpeed => 3;
     
     private readonly Canvas _context;
-    private Point _direction;
+    private CustomPoint _direction;
 
     protected int Speed { get; set; }
     protected Shape Shape { get; }
-    protected Point CurrentPosition { get; set; }
-    protected Point ExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
+    protected CustomPoint CurrentPosition { get; private set; }
+    protected CustomPoint ExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
+    protected CustomPoint Direction => _direction;
     
     public bool InMotion { get; set; }
 
@@ -24,7 +25,7 @@ public abstract class MovableFigure
     {
         _context = context;
         _direction = RandomHelper.NextDirection();
-        CurrentPosition = new Point((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
+        CurrentPosition = new CustomPoint((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
         Speed = DefaultSpeed;
         Shape = shape;
         InMotion = true;
@@ -35,7 +36,7 @@ public abstract class MovableFigure
         if (InMotion == false)
             return;
         
-        CurrentPosition = new Point(
+        CurrentPosition = new CustomPoint(
             CurrentPosition.X + _direction.X * Speed,
             CurrentPosition.Y + _direction.Y * Speed);
 
@@ -72,4 +73,5 @@ public abstract class MovableFigure
     }
     
     protected virtual void TouchedBoundary() {}
+    public abstract MovableFigureSnapshot MakeSnapshot();
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures;
 
@@ -31,6 +32,17 @@ public class MovableCircle : MovableFigure
     {
         var nextColorIndex = (_currentColorIndex + 1) % Colors.Count;
         SetColor(nextColorIndex);
+    }
+
+    public override MovableFigureSnapshot MakeSnapshot()
+    {
+        return new MovableCircleMovableSnapshot
+        {
+            CurrentColorIndex = _currentColorIndex,
+            CurrentPosition = CurrentPosition,
+            Direction = Direction,
+            InMotion = InMotion
+        };
     }
 
     private void SetColor(int colorIndex)

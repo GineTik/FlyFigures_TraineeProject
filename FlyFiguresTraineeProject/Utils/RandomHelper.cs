@@ -19,14 +19,14 @@ public static class RandomHelper
         return randomNumber;
     }
 
-    public static Point NextDirection()
+    public static CustomPoint NextDirection()
     {
         var x = NextWithoutZero() * (Random.NextDouble() + 0.01);
         var y = NextWithoutZero() * (Random.NextDouble() + 0.01);
 
         return x < 0.5 
-            ? new Point(x, NextWithoutZero()) 
-            : new Point(NextWithoutZero(), y);
+            ? new CustomPoint(x, NextWithoutZero()) 
+            : new CustomPoint(NextWithoutZero(), y);
     }
 
     private static int NextWithoutZero()

@@ -1,6 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.Management;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures;
 
@@ -19,5 +21,15 @@ public class MovableRectangle : MovableFigure
 {
     public MovableRectangle(Canvas context) : base(context, RectangleConstants.Instance)
     {
+    }
+
+    public override MovableFigureSnapshot MakeSnapshot()
+    {
+        return new MovableRectangleMovableSnapshot
+        {
+            CurrentPosition = CurrentPosition,
+            Direction = Direction,
+            InMotion = InMotion
+        };
     }
 }

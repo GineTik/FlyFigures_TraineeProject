@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures;
 
@@ -38,5 +39,15 @@ public class MovableTriangle : MovableFigure
             await Task.Delay(AccelerationDelayInMilliseconds);
             Speed = DefaultSpeed;
         });
+    }
+
+    public override MovableFigureSnapshot MakeSnapshot()
+    {
+        return new MovableTriangleMovableSnapshot
+        {
+            CurrentPosition = CurrentPosition,
+            Direction = Direction,
+            InMotion = InMotion
+        };
     }
 }

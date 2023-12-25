@@ -116,6 +116,31 @@
                 <StackPanel
                     Grid.Column="1"
                     Orientation="Horizontal">
+                    <StackPanel>
+                        <CheckBox IsChecked="{Binding IsOpen, Mode=TwoWay}" Content="Content" />
+                        <Popup IsOpen="{Binding IsOpen}" StaysOpen="False">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button 
+                                        Content="Save"
+                                        Command="{Binding SaveStateCommand}" />
+                                    <ComboBox 
+                                        ItemsSource="{Binding AvailableFileTypes}"
+                                        SelectedItem="{Binding SelectedFileType}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock 
+                                                    Text="{Binding}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                                <Button 
+                                    Content="Open"
+                                    Command="{Binding LoadStateCommand}" />
+                            </StackPanel>
+                        </Popup>
+                    </StackPanel>
                     <ComboBox 
                         Style="{StaticResource HeaderCombobox}"
                         ItemsSource="{Binding AvailableLanguages}"
