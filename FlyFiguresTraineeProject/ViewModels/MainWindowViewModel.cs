@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FlyFiguresTraineeProject.Figures;
 using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Languages;
+using FlyFiguresTraineeProject.Saving;
 using FlyFiguresTraineeProject.Saving.Models;
-using FlyFiguresTraineeProject.Saving.Strategies;
-using FlyFiguresTraineeProject.Saving.Strategies.JsonSavingStrategy;
 using FlyFiguresTraineeProject.ViewModels.Base;
-using Microsoft.Win32;
 
 namespace FlyFiguresTraineeProject.ViewModels;
 
@@ -55,13 +50,6 @@ public class MainWindowViewModel : ViewModelBase
         get => _isOpen;
         set => SetField(ref _isOpen, value);
     }
-
-    public IEnumerable<string> AvailableFileTypes => new[]
-    {
-        "bin",
-        "xml",
-        "json"
-    };
 
     public string SelectedFileType
     {
@@ -136,24 +124,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private async void SaveState(object? _)
     {
-        var saveFileDialog = new SaveFileDialog
-        {
-            Filter = $"{SelectedFileType} files (*.{SelectedFileType})|*.{SelectedFileType}",
-            FilterIndex = 2,
-            RestoreDirectory = true
-        };
-
-        if (saveFileDialog.ShowDialog() == false)
-            return;
-
-        await using var stream = saveFileDialog.OpenFile();
-
-        var strategy = SelectedFileType switch
-        {
-            "json" => new JsonSavingStrategy()
-        };
-        
-        await strategy.Save(stream, new SavingState
+        await Saver.Save(SelectedFileType, new SavingState
         {
             Data = new SavingStateData
             {
@@ -161,34 +132,18 @@ public class MainWindowViewModel : ViewModelBase
                 CultureInfo = SelectedLanguage.CultureInfo.Name
             }
         });
-        
-        stream.Close();
     }
 
     private async void LoadState(object? _)
     {
-        var saveFileDialog = new OpenFileDialog
-        {
-            Filter = $"{SelectedFileType} files (*.{SelectedFileType})|*.{SelectedFileType}",
-            FilterIndex = 2,
-            RestoreDirectory = true
-        };
-        
-        if (saveFileDialog.ShowDialog() == false)
+        var savingState = await Saver.Load();
+
+        if (savingState == null)
             return;
-
-        await using var stream = (FileStream)saveFileDialog.OpenFile();
-
-        var strategy = Path.GetExtension(stream.Name) switch
-        {
-            ".json" => new JsonSavingStrategy()
-        };
-
-        var state = await strategy.Load(stream);
-
-        SelectedLanguage = AvailableLanguages.FirstOrDefault(l => l.CultureInfo.Name == state.Data.CultureInfo) ?? AvailableLanguages.Default;
+        
+        SelectedLanguage = AvailableLanguages.FirstOrDefault(l => l.CultureInfo.Name == savingState.Data.CultureInfo) ?? AvailableLanguages.Default;
         ClearFigures();
-        Figures = new ObservableCollection<MovableFigure>(state.Data.Figures.Select(s => s.Restore(Canvas)));
+        Figures = new ObservableCollection<MovableFigure>(savingState.Data.Figures.Select(s => s.Restore(Canvas)));
         _dispatcherTimer.Start();
     }
 }

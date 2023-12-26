@@ -11,6 +11,7 @@
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         xmlns:configuration="clr-namespace:FlyFiguresTraineeProject.Figures.Configuration"
+        xmlns:saving="clr-namespace:FlyFiguresTraineeProject.Saving"
         lex:ResxLocalizationProvider.DefaultAssembly="FlyFiguresTraineeProject"
         lex:ResxLocalizationProvider.DefaultDictionary="Language">
     
@@ -125,7 +126,7 @@
                                         Content="Save"
                                         Command="{Binding SaveStateCommand}" />
                                     <ComboBox 
-                                        ItemsSource="{Binding AvailableFileTypes}"
+                                        ItemsSource="{x:Static saving:AvailableFileTypes.Instance}"
                                         SelectedItem="{Binding SelectedFileType}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
