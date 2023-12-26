@@ -14,7 +14,7 @@ public class JsonSavingStrategy : ISaveStrategy
         {
             Converters =
             {
-                new FigureSnapshotConverter()
+                new SavingStateV1Converter()
             }
         });
     }
@@ -25,7 +25,7 @@ public class JsonSavingStrategy : ISaveStrategy
          {
              Converters =
              {
-                 new FigureSnapshotConverter()
+                 new SavingStateV1Converter()
              }
          }) ?? throw new InvalidOperationException();
     }

@@ -1,9 +1,9 @@
-﻿using FlyFiguresTraineeProject.Figures;
+﻿using FlyFiguresTraineeProject.Saving.Attributes;
 
 namespace FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
-public class MovableCircleMovableSnapshot : MovableFigureSnapshot
+[SnapshotName("MovableCircleSnapshot")]
+public class MovableCircleSnapshot : MovableFigureSnapshot
 {
-    public override string Name => typeof(MovableCircle).FullName!;
     public int CurrentColorIndex { get; set; }
 }

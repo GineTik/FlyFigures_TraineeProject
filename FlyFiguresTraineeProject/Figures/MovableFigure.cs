@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 using FlyFiguresTraineeProject.Utils;
 
@@ -19,15 +20,17 @@ public abstract class MovableFigure
     protected CustomPoint ExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     protected CustomPoint Direction => _direction;
     
+    public FigureData FigureData { get; private set; }
     public bool InMotion { get; set; }
 
-    protected MovableFigure(Canvas context, Shape shape)
+    protected MovableFigure(Canvas context, Shape shape, FigureData figureData)
     {
         _context = context;
         _direction = RandomHelper.NextDirection();
         CurrentPosition = new CustomPoint((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
         Speed = DefaultSpeed;
         Shape = shape;
+        FigureData = figureData;
         InMotion = true;
     }
 

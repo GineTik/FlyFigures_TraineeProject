@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:FlyFiguresTraineeProject.Converters"
         xmlns:vm="clr-namespace:FlyFiguresTraineeProject.ViewModels"
-        xmlns:figuresData="clr-namespace:FlyFiguresTraineeProject.Figures.Data"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Background="#f1f5f9"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:configuration="clr-namespace:FlyFiguresTraineeProject.Figures.Configuration"
         lex:ResxLocalizationProvider.DefaultAssembly="FlyFiguresTraineeProject"
         lex:ResxLocalizationProvider.DefaultDictionary="Language">
     
@@ -88,7 +88,7 @@
             <StackPanel
                 Grid.Column="1"
                 Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding Source={x:Static figuresData:ConfiguredFigureData.Data}}">
+                <ItemsControl ItemsSource="{Binding Source={x:Static configuration:AvailableFigureData.Instance}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" />
@@ -100,9 +100,9 @@
                                 Style="{StaticResource HeaderButton}"
                                 Command="{Binding DataContext.AddFigureCommand,
                                     RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                CommandParameter="{Binding Value}">
+                                CommandParameter="{Binding}">
                                 <ContentControl
-                                    Content="{Binding Value.Icon}" />
+                                    Content="{Binding Icon}" />
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

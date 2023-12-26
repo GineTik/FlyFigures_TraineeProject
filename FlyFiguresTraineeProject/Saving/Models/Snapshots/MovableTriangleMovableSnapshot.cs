@@ -1,8 +1,8 @@
-﻿using FlyFiguresTraineeProject.Figures;
+﻿using FlyFiguresTraineeProject.Saving.Attributes;
 
 namespace FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
-public class MovableTriangleMovableSnapshot : MovableFigureSnapshot
+[SnapshotName("MovableTriangleSnapshot")]
+public class MovableTriangleSnapshot : MovableFigureSnapshot
 {
-    public override string Name => typeof(MovableTriangle).FullName!;
 }

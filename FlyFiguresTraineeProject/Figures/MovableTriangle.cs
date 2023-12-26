@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures;
@@ -27,7 +28,7 @@ public class MovableTriangle : MovableFigure
     private static int AccelerationDelayInMilliseconds => 300;
     private static int AccelerationSpeed => 7;
 
-    public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance)
+    public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
     {
     }
 
@@ -43,7 +44,7 @@ public class MovableTriangle : MovableFigure
 
     public override MovableFigureSnapshot MakeSnapshot()
     {
-        return new MovableTriangleMovableSnapshot
+        return new MovableTriangleSnapshot
         {
             CurrentPosition = CurrentPosition,
             Direction = Direction,

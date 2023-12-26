@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures;
@@ -23,7 +24,8 @@ public class MovableCircle : MovableFigure
     
     public MovableCircle(Canvas context) : base(
         context,
-        CircleConstants.Instance)
+        CircleConstants.Instance,
+        AvailableFigureData.MovableCircle)
     {
         SetColor(0);
     }
@@ -36,7 +38,7 @@ public class MovableCircle : MovableFigure
 
     public override MovableFigureSnapshot MakeSnapshot()
     {
-        return new MovableCircleMovableSnapshot
+        return new MovableCircleSnapshot
         {
             CurrentColorIndex = _currentColorIndex,
             CurrentPosition = CurrentPosition,

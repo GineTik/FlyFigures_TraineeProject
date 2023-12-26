@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FlyFiguresTraineeProject.Figures;
-using FlyFiguresTraineeProject.Figures.Data;
+using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Languages;
 using FlyFiguresTraineeProject.Saving.Models;
 using FlyFiguresTraineeProject.Saving.Strategies;
@@ -61,7 +61,7 @@ public class MainWindowViewModel : ViewModelBase
         get => _selectedFileType;
         set => SetField(ref _selectedFileType, value);
     }
-
+    
     public MainWindowViewModel()
     {
         Canvas = new Canvas();
@@ -148,8 +148,11 @@ public class MainWindowViewModel : ViewModelBase
         
         await strategy.Save(stream, new SavingState
         {
-            Figures = Figures.Select(f => f.MakeSnapshot()),
-            CultureInfo = SelectedLanguage.CultureInfo.Name
+            Data = new SavingStateData
+            {
+                Figures = Figures.Select(f => f.MakeSnapshot()),
+                CultureInfo = SelectedLanguage.CultureInfo.Name
+            }
         });
         
         stream.Close();
