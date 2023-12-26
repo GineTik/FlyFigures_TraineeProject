@@ -23,6 +23,11 @@ public class MovableRectangle : MovableFigure
     public MovableRectangle(Canvas context) : base(context, RectangleConstants.Instance, AvailableFigureData.MovableRectangle)
     {
     }
+    
+    public MovableRectangle(Canvas context, MovableRectangleSnapshot snapshot) : base(
+        context, snapshot, RectangleConstants.Instance, AvailableFigureData.MovableRectangle)
+    {
+    }
 
     public override MovableFigureSnapshot MakeSnapshot()
     {

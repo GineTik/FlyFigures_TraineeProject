@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ public class MainWindowViewModel : ViewModelBase
     private Language _selectedLanguage = null!;
     private bool _isOpen;
     private string _selectedFileType;
+    private ObservableCollection<MovableFigure> _figures;
 
     public ViewModelCommand AddFigureCommand { get; }
     public ViewModelCommand ClearFiguresCommand { get; }
@@ -31,7 +33,12 @@ public class MainWindowViewModel : ViewModelBase
     public ViewModelCommand LoadStateCommand { get; }
 
     public Canvas Canvas { get; private set; }
-    public ObservableCollection<MovableFigure> Figures { get; private set; }
+
+    public ObservableCollection<MovableFigure> Figures
+    {
+        get => _figures;
+        private set => SetField(ref _figures, value);
+    }
     public AvailableLanguages AvailableLanguages {get; private set; }
     public Language SelectedLanguage
     {
@@ -102,7 +109,7 @@ public class MainWindowViewModel : ViewModelBase
         Figures.Add(movableFigure);
     }
     
-    private void ClearFigures(object? _)
+    private void ClearFigures(object? _ = null)
     {
         Canvas.Children.Clear();
         Figures.Clear();
@@ -178,6 +185,10 @@ public class MainWindowViewModel : ViewModelBase
         };
 
         var state = await strategy.Load(stream);
-        
+
+        SelectedLanguage = AvailableLanguages.FirstOrDefault(l => l.CultureInfo.Name == state.Data.CultureInfo) ?? AvailableLanguages.Default;
+        ClearFigures();
+        Figures = new ObservableCollection<MovableFigure>(state.Data.Figures.Select(s => s.Restore(Canvas)));
+        _dispatcherTimer.Start();
     }
 }

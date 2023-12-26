@@ -34,6 +34,14 @@ public abstract class MovableFigure
         InMotion = true;
     }
 
+    protected MovableFigure(Canvas context, MovableFigureSnapshot snapshot, Shape shape, FigureData figureData) 
+        : this(context, shape, figureData)
+    {
+        _direction = snapshot.Direction;
+        CurrentPosition = snapshot.CurrentPosition;
+        InMotion = snapshot.InMotion;
+    }
+
     public void Move()
     {
         if (InMotion == false)

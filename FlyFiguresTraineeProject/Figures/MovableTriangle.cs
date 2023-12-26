@@ -31,6 +31,11 @@ public class MovableTriangle : MovableFigure
     public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
     {
     }
+    
+    public MovableTriangle(Canvas context, MovableTriangleSnapshot snapshot) : base(
+        context, snapshot, TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
+    {
+    }
 
     protected override void TouchedBoundary()
     {

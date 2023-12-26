@@ -30,6 +30,12 @@ public class MovableCircle : MovableFigure
         SetColor(0);
     }
 
+    public MovableCircle(Canvas context, MovableCircleSnapshot snapshot) : base(
+        context, snapshot, CircleConstants.Instance, AvailableFigureData.MovableCircle)
+    {
+        SetColor(snapshot.CurrentColorIndex);
+    }
+
     protected override void TouchedBoundary()
     {
         var nextColorIndex = (_currentColorIndex + 1) % Colors.Count;
