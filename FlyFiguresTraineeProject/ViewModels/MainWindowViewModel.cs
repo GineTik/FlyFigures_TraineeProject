@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
@@ -18,8 +17,8 @@ public class MainWindowViewModel : ViewModelBase
     private readonly DispatcherTimer _dispatcherTimer;
     private Language _selectedLanguage = null!;
     private bool _isOpen;
-    private string _selectedFileType;
-    private ObservableCollection<MovableFigure> _figures;
+    private string _selectedFileType = null!;
+    private ObservableCollection<MovableFigure> _figures = null!;
 
     public ViewModelCommand AddFigureCommand { get; }
     public ViewModelCommand ClearFiguresCommand { get; }
@@ -128,8 +127,7 @@ public class MainWindowViewModel : ViewModelBase
         {
             Data = new SavingStateData
             {
-                Figures = Figures.Select(f => f.MakeSnapshot()),
-                CultureInfo = SelectedLanguage.CultureInfo.Name
+                Figures = Figures.Select(f => f.MakeSnapshot()).ToList(),
             }
         });
     }
@@ -141,7 +139,6 @@ public class MainWindowViewModel : ViewModelBase
         if (savingState == null)
             return;
         
-        SelectedLanguage = AvailableLanguages.FirstOrDefault(l => l.CultureInfo.Name == savingState.Data.CultureInfo) ?? AvailableLanguages.Default;
         ClearFigures();
         Figures = new ObservableCollection<MovableFigure>(savingState.Data.Figures.Select(s => s.Restore(Canvas)));
         _dispatcherTimer.Start();

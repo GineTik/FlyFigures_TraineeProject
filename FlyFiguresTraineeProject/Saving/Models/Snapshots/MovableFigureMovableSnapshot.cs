@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Windows.Controls;
@@ -8,7 +9,8 @@ using FlyFiguresTraineeProject.Utils;
 
 namespace FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
-public abstract class MovableFigureSnapshot : IMovableSnapshot
+[Serializable]
+public abstract class MovableFigureSnapshot
 {
     [JsonIgnore]
     public string SnapshotName => GetType().GetCustomAttribute<SnapshotNameAttribute>()?.Name ?? throw new InvalidDataException("Snapshot attribute is required");

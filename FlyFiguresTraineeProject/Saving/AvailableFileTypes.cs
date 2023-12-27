@@ -13,8 +13,8 @@ public class AvailableFileTypes : IEnumerable<string>
     public IEnumerator<string> GetEnumerator()
     {
         yield return Json;
-        // yield return Xml;
-        // yield return Bin;
+        yield return Xml;
+        yield return Bin;
     }
 
     IEnumerator IEnumerable.GetEnumerator()

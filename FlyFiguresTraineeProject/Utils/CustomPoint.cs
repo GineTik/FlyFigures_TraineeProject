@@ -1,5 +1,8 @@
-﻿namespace FlyFiguresTraineeProject.Utils;
+﻿using System;
 
+namespace FlyFiguresTraineeProject.Utils;
+
+[Serializable]
 public struct CustomPoint
 {
     public double X { get; set; }

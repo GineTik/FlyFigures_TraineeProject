@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
-namespace FlyFiguresTraineeProject.Saving.Strategies.JsonSavingStrategy;
+namespace FlyFiguresTraineeProject.Saving.Strategies.Json;
 
 public class FigureSnapshotV1Converter : JsonConverter<MovableFigureSnapshot>
 {

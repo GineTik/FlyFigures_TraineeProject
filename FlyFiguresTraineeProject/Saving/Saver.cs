@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FlyFiguresTraineeProject.Saving.Models;
-using FlyFiguresTraineeProject.Saving.Strategies.JsonSavingStrategy;
+using FlyFiguresTraineeProject.Saving.Strategies;
+using FlyFiguresTraineeProject.Saving.Strategies.Bin;
+using FlyFiguresTraineeProject.Saving.Strategies.Json;
+using FlyFiguresTraineeProject.Saving.Strategies.Xml;
 using Microsoft.Win32;
 
 namespace FlyFiguresTraineeProject.Saving;
@@ -25,13 +29,15 @@ public static class Saver
 
         await using var stream = saveFileDialog.OpenFile();
 
-        var strategy = fileType switch
+        ISavingStrategy strategy = fileType switch
         {
-            AvailableFileTypes.Json => new JsonSavingStrategy()
+            AvailableFileTypes.Json => new JsonSavingStrategy(),
+            AvailableFileTypes.Xml => new XmlSavingStrategy(),
+            AvailableFileTypes.Bin => new BinSavingStrategy(),
+            _ => throw new ArgumentException(nameof(fileType) + " incorrect type")
         };
         
         await strategy.Save(stream, savingState);
-        
         stream.Close();
     }
 
@@ -49,9 +55,12 @@ public static class Saver
 
         await using var stream = (FileStream)saveFileDialog.OpenFile();
 
-        var strategy = Path.GetExtension(stream.Name).TrimStart('.') switch
+        ISavingStrategy strategy = Path.GetExtension(stream.Name).TrimStart('.') switch
         {
-            AvailableFileTypes.Json => new JsonSavingStrategy()
+            AvailableFileTypes.Json => new JsonSavingStrategy(),
+            AvailableFileTypes.Xml => new XmlSavingStrategy(),
+            AvailableFileTypes.Bin => new BinSavingStrategy(),
+            _ => throw new ArgumentException("Incorrect file type")
         };
 
         return await strategy.Load(stream);
