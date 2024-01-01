@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using FlyFiguresTraineeProject.Events;
 using FlyFiguresTraineeProject.Figures.Configuration;
+using FlyFiguresTraineeProject.Figures.Systems;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 using FlyFiguresTraineeProject.Utils;
 
@@ -11,35 +14,50 @@ public abstract class MovableFigure
 {
     protected static int DefaultSpeed => 3;
     
-    private readonly Canvas _context;
+    private Canvas _context = null!;
     private CustomPoint _direction;
-
+    private IReadOnlyCollection<MovableFigure> _figuresOfContext = null!;
+    private FigureIntersectSystem _intersectSystem = null!;
+    private FigureReflectionSystem _reflectionSystem = null!;
+    
+    public Shape Shape { get; }
+    public FigureData FigureData { get; private set; }
+    public bool InMotion { get; set; }
+    public CustomPoint CurrentPosition { get; private set; }
+    
     protected int Speed { get; set; }
-    protected Shape Shape { get; }
-    protected CustomPoint CurrentPosition { get; private set; }
     protected CustomPoint ExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
     protected CustomPoint Direction => _direction;
     
-    public FigureData FigureData { get; private set; }
-    public bool InMotion { get; set; }
+    public event EventHandler<FiguresTouchedEventArgs>? FiguresTouched;
 
-    protected MovableFigure(Canvas context, Shape shape, FigureData figureData)
+    protected MovableFigure(Shape shape, FigureData figureData)
     {
-        _context = context;
         _direction = RandomHelper.NextDirection();
-        CurrentPosition = new CustomPoint((context.ActualWidth - shape.ActualWidth) / 2, (context.ActualHeight - shape.ActualHeight) / 2);
         Speed = DefaultSpeed;
         Shape = shape;
         FigureData = figureData;
         InMotion = true;
     }
 
-    protected MovableFigure(Canvas context, MovableFigureSnapshot snapshot, Shape shape, FigureData figureData) 
-        : this(context, shape, figureData)
+    protected MovableFigure(MovableFigureSnapshot snapshot, Shape shape, FigureData figureData) 
+        : this(shape, figureData)
     {
         _direction = snapshot.Direction;
         CurrentPosition = snapshot.CurrentPosition;
         InMotion = snapshot.InMotion;
+    }
+
+    public void Initialization(Canvas context, IReadOnlyCollection<MovableFigure> figures)
+    {
+        _context = context;
+        _figuresOfContext = figures;
+        _intersectSystem = new FigureIntersectSystem(this, _context, _figuresOfContext);
+        _reflectionSystem = new FigureReflectionSystem(this);
+        
+        CurrentPosition = new CustomPoint((context.ActualWidth - Shape.ActualWidth) / 2, (context.ActualHeight - Shape.ActualHeight) / 2);
+        Draw();
+        _context.Children.Add(Shape);
     }
 
     public void Move()
@@ -51,26 +69,15 @@ public abstract class MovableFigure
             CurrentPosition.X + _direction.X * Speed,
             CurrentPosition.Y + _direction.Y * Speed);
 
-        if (CurrentPosition.X <= 0)
+        if (_reflectionSystem.CheckBoundaryTouch(ExtremeLimit))
         {
-            _direction.X = Math.Abs(_direction.X);
+            _direction = _reflectionSystem.UpdateDirection(Direction, ExtremeLimit);
             TouchedBoundary();
         }
-        else if (CurrentPosition.X + Shape.ActualWidth >= ExtremeLimit.X)
+        
+        if (FiguresTouched != null && _intersectSystem.CheckIntersect(out var participants))
         {
-            _direction.X = -Math.Abs(_direction.X);
-            TouchedBoundary();
-        }
-
-        if (CurrentPosition.Y <= 0)
-        {
-            _direction.Y = Math.Abs(_direction.Y);
-            TouchedBoundary();
-        }
-        else if (CurrentPosition.Y + Shape.ActualHeight >= ExtremeLimit.Y)
-        {
-            _direction.Y = -Math.Abs(_direction.Y);
-            TouchedBoundary();
+            OnFiguresTouched(participants!);
         }
     }
 
@@ -78,11 +85,13 @@ public abstract class MovableFigure
     {
         Canvas.SetTop(Shape, CurrentPosition.Y);
         Canvas.SetLeft(Shape, CurrentPosition.X);
-
-        if (_context.Children.Contains(Shape) == false)
-            _context.Children.Add(Shape);
     }
-    
+
+    private void OnFiguresTouched(FiguresTouchedEventArgs e)
+    {
+        FiguresTouched?.Invoke(this, e);
+    }
+
     protected virtual void TouchedBoundary() {}
     public abstract MovableFigureSnapshot MakeSnapshot();
 }

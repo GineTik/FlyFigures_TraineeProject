@@ -50,9 +50,10 @@
                 Style="{StaticResource MinimalisticScrollViewer}" 
                 VerticalScrollBarVisibility="Auto" 
                 Margin="20 0 20 20">
-                <ItemsControl 
-                    ItemsSource="{Binding Figures}">
-                    <ItemsControl.ItemTemplate>
+                <ListView
+                    ItemsSource="{Binding Figures}"
+                    SelectedItem="{Binding SelectedFigure, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -75,19 +76,18 @@
                                     Grid.Column="1"/>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListView.ItemTemplate>
+                </ListView>
             </ScrollViewer>
         </DockPanel>
         
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel
-                Grid.Column="1"
+                Grid.Column="0"
                 Orientation="Horizontal">
                 <ItemsControl ItemsSource="{Binding Source={x:Static configuration:AvailableFigureData.Instance}}">
                     <ItemsControl.ItemsPanel>
@@ -117,6 +117,19 @@
                 <StackPanel
                     Grid.Column="1"
                     Orientation="Horizontal">
+                    <Button
+                        Style="{StaticResource HeaderButton}"
+                        Command="{Binding AddFiguresTouchedEventCommand}"
+                    >
+                        <TextBlock Text="+" />
+                    </Button>
+                    <Button
+                        Style="{StaticResource HeaderButton}"
+                        Command="{Binding RemoveFiguresTouchedEventCommand}"
+                    >
+                        <TextBlock Text="-" />
+                    </Button>
+                    
                     <StackPanel>
                         <CheckBox IsChecked="{Binding IsOpen, Mode=TwoWay}" Content="Content" />
                         <Popup IsOpen="{Binding IsOpen}" StaysOpen="False">

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using FlyFiguresTraineeProject.Figures.Configuration;
@@ -22,16 +20,15 @@ public class MovableCircle : MovableFigure
     private static readonly IList<string> Colors = new[] { "#ffaacc", "#000", "#004ac2" }; 
     private int _currentColorIndex;
     
-    public MovableCircle(Canvas context) : base(
-        context,
+    public MovableCircle() : base(
         CircleConstants.Instance,
         AvailableFigureData.MovableCircle)
     {
         SetColor(0);
     }
 
-    public MovableCircle(Canvas context, MovableCircleSnapshot snapshot) : base(
-        context, snapshot, CircleConstants.Instance, AvailableFigureData.MovableCircle)
+    public MovableCircle(MovableCircleSnapshot snapshot) : base(
+        snapshot, CircleConstants.Instance, AvailableFigureData.MovableCircle)
     {
         SetColor(snapshot.CurrentColorIndex);
     }

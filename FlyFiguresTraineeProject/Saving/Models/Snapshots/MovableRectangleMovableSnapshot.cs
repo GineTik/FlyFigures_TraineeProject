@@ -11,8 +11,8 @@ namespace FlyFiguresTraineeProject.Saving.Models.Snapshots;
 [Serializable]
 public class MovableRectangleSnapshot : MovableFigureSnapshot
 {
-    public override MovableFigure Restore(Canvas canvas)
+    public override MovableFigure Restore()
     {
-        return new MovableRectangle(canvas, this);
+        return new MovableRectangle(this);
     }
 }

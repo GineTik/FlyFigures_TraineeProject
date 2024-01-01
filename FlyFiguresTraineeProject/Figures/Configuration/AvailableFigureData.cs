@@ -17,7 +17,7 @@ public class AvailableFigureData : IEnumerable<FigureData>
             Height = 20
         },
         LocalizationKey = "MovableCircle",
-        Factory = (canvas) => new MovableCircle(canvas),
+        Factory = () => new MovableCircle(),
     };
     
     public static FigureData MovableRectangle = new()
@@ -29,7 +29,7 @@ public class AvailableFigureData : IEnumerable<FigureData>
             Height = 23
         },
         LocalizationKey = "MovableRectangle",
-        Factory = (canvas) => new MovableRectangle(canvas),
+        Factory = () => new MovableRectangle(),
     };
     
     public static FigureData MovableTriangle = new()
@@ -45,7 +45,7 @@ public class AvailableFigureData : IEnumerable<FigureData>
             })
         },
         LocalizationKey = "MovableTriangle",
-        Factory = (canvas) => new MovableTriangle(canvas),
+        Factory = () => new MovableTriangle(),
     };
 
     public static AvailableFigureData Instance { get; } = new AvailableFigureData();

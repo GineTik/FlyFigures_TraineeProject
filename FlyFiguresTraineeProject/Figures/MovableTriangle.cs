@@ -28,12 +28,12 @@ public class MovableTriangle : MovableFigure
     private static int AccelerationDelayInMilliseconds => 300;
     private static int AccelerationSpeed => 7;
 
-    public MovableTriangle(Canvas context) : base(context, TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
+    public MovableTriangle() : base(TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
     {
     }
     
-    public MovableTriangle(Canvas context, MovableTriangleSnapshot snapshot) : base(
-        context, snapshot, TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
+    public MovableTriangle(MovableTriangleSnapshot snapshot) : base(
+        snapshot, TriangleConstants.Instance, AvailableFigureData.MovableTriangle)
     {
     }
 

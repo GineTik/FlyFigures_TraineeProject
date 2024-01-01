@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using FlyFiguresTraineeProject.Events;
 using FlyFiguresTraineeProject.Figures;
 using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Languages;
@@ -18,17 +19,20 @@ public class MainWindowViewModel : ViewModelBase
     private Language _selectedLanguage = null!;
     private bool _isOpen;
     private string _selectedFileType = null!;
-    private ObservableCollection<MovableFigure> _figures = null!;
+    private FigureCollection _figures = null!;
+    private MovableFigure? _selectedFigure;
 
     public ViewModelCommand AddFigureCommand { get; }
     public ViewModelCommand ClearFiguresCommand { get; }
     public ViewModelCommand SwitchInMotionOfFigureCommand { get; }
     public ViewModelCommand SaveStateCommand { get; }
     public ViewModelCommand LoadStateCommand { get; }
+    public ViewModelCommand AddFiguresTouchedEventCommand { get; }
+    public ViewModelCommand RemoveFiguresTouchedEventCommand { get; }
 
     public Canvas Canvas { get; private set; }
 
-    public ObservableCollection<MovableFigure> Figures
+    public FigureCollection Figures
     {
         get => _figures;
         private set => SetField(ref _figures, value);
@@ -42,6 +46,12 @@ public class MainWindowViewModel : ViewModelBase
             SetField(ref _selectedLanguage, value);
             SwitchLanguage();
         }
+    }
+    
+    public MovableFigure? SelectedFigure
+    {
+        get => _selectedFigure;
+        set => SetField(ref _selectedFigure, value);
     }
 
     public bool IsOpen
@@ -59,16 +69,18 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         Canvas = new Canvas();
-        Figures = new ObservableCollection<MovableFigure>();
+        Figures = new FigureCollection(Canvas);
         AvailableLanguages = new AvailableLanguages();
         SelectedLanguage = AvailableLanguages.Default;
-        SelectedFileType = "json";
+        SelectedFileType = AvailableFileTypes.Json;
 
         AddFigureCommand = new ViewModelCommand(AddFigure);
         ClearFiguresCommand = new ViewModelCommand(ClearFigures, _ => Figures.Any());
         SwitchInMotionOfFigureCommand = new ViewModelCommand(SwitchInMotionOfFigure);
         SaveStateCommand = new ViewModelCommand(SaveState);
         LoadStateCommand = new ViewModelCommand(LoadState);
+        AddFiguresTouchedEventCommand = new ViewModelCommand(AddFiguresTouchedEvent);
+        RemoveFiguresTouchedEventCommand = new ViewModelCommand(RemoveFiguresTouchedEvent);
         
         _dispatcherTimer = new DispatcherTimer();
         _dispatcherTimer.Tick += MoveAndDrawFigures;
@@ -78,11 +90,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private void MoveAndDrawFigures(object? sender, EventArgs e)
     {
-        foreach (var figure in Figures)
-        {
-            figure.Move();
-            figure.Draw();
-        }
+        Figures.MoveAndDraw();
     }
     
     private void AddFigure(object? figureData)
@@ -91,16 +99,12 @@ public class MainWindowViewModel : ViewModelBase
             throw new ArgumentNullException(nameof(figureData));
         
         var typedFigureData = (FigureData)figureData;
-        var movableFigure = typedFigureData.Factory.Invoke(Canvas);
-        
-        Figures.Add(movableFigure);
+        Figures.Add(typedFigureData.Factory);
     }
     
     private void ClearFigures(object? _ = null)
     {
-        Canvas.Children.Clear();
         Figures.Clear();
-        _dispatcherTimer.Stop();
     }
 
     private void SwitchInMotionOfFigure(object? figure)
@@ -109,11 +113,8 @@ public class MainWindowViewModel : ViewModelBase
             throw new ArgumentNullException(nameof(figure));
         
         var typedFigure = (MovableFigure)figure;
-        var figureIndex = Figures.IndexOf(typedFigure);
-        
         typedFigure.InMotion = !typedFigure.InMotion;
-        Figures.RemoveAt(figureIndex);
-        Figures.Insert(figureIndex, typedFigure);
+        Figures.ChangeFigure(typedFigure);
     }
 
     private void SwitchLanguage()
@@ -139,8 +140,27 @@ public class MainWindowViewModel : ViewModelBase
         if (savingState == null)
             return;
         
-        ClearFigures();
-        Figures = new ObservableCollection<MovableFigure>(savingState.Data.Figures.Select(s => s.Restore(Canvas)));
-        _dispatcherTimer.Start();
+        Figures.Restore(savingState.Data.Figures);
+    }
+
+    private void AddFiguresTouchedEvent(object? _)
+    {
+        if (SelectedFigure == null)
+            return;
+        
+        SelectedFigure.FiguresTouched += FiguresTouchedEventHandler;
+    }
+
+    private void RemoveFiguresTouchedEvent(object? _)
+    {
+        if (SelectedFigure == null)
+            return;
+
+        SelectedFigure.FiguresTouched -= FiguresTouchedEventHandler;
+    }
+    
+    private void FiguresTouchedEventHandler(object? o, FiguresTouchedEventArgs args)
+    {
+        Console.WriteLine($@"Figure {args.Sender.GetType().Name}({Figures.IndexOf(args.Sender)}) touched {args.TouchedThe.GetType().Name}({Figures.IndexOf(args.TouchedThe)})");
     }
 }

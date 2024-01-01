@@ -70,4 +70,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FlyFiguresTraineeProject.Utils\FlyFiguresTraineeProject.Utils.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -13,8 +13,8 @@ public class MovableCircleSnapshot : MovableFigureSnapshot
 {
     public int CurrentColorIndex { get; set; }
     
-    public override MovableFigure Restore(Canvas canvas)
+    public override MovableFigure Restore()
     {
-        return new MovableCircle(canvas, this);
+        return new MovableCircle(this);
     }
 }

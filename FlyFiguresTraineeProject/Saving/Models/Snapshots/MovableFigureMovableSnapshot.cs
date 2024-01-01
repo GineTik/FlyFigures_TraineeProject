@@ -19,5 +19,5 @@ public abstract class MovableFigureSnapshot
     public CustomPoint CurrentPosition { get; set; }
     public bool InMotion { get; set; }
 
-    public abstract MovableFigure Restore(Canvas canvas);
+    public abstract MovableFigure Restore();
 }
