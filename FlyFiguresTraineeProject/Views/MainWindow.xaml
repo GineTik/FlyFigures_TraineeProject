@@ -57,8 +57,8 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock 
                                     Text="{lex:Loc {Binding ., 
@@ -72,7 +72,6 @@
                                     Command="{Binding DataContext.SwitchInMotionOfFigureCommand,
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                     CommandParameter="{Binding}"
-                                    DockPanel.Dock="Right"
                                     Grid.Column="1"/>
                             </Grid>
                         </DataTemplate>

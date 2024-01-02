@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using FlyFiguresTraineeProject.Events;
+using FlyFiguresTraineeProject.Utils;
 
 namespace FlyFiguresTraineeProject.Figures.Systems;
 
@@ -26,17 +28,19 @@ public class FigureIntersectSystem
         {
             if (_movableFigure == figure) continue;
             if (_movableFigure.GetType() != figure.GetType()) continue;
-            if (IntersectWith(figure.Shape) == false) continue;
+            if (IntersectWith(figure.Shape, out var pointOfContact) == false) continue;
 
-            participants = new FiguresTouchedEventArgs(_movableFigure, figure);
+            participants = new FiguresTouchedEventArgs(_movableFigure, figure, pointOfContact);
             return true;
         }
 
         return false;
     }
     
-    private bool IntersectWith(Shape touchedWithShape)
+    private bool IntersectWith(Shape touchedWithShape, out CustomPoint pointOfContact)
     {
+        pointOfContact = new CustomPoint(double.NaN, double.NaN);
+        
         var rect1 = _movableFigure.Shape.RenderedGeometry.Bounds;
         var rect2 = touchedWithShape.RenderedGeometry.Bounds;
 
@@ -46,6 +50,18 @@ public class FigureIntersectSystem
         var transform2 = touchedWithShape.TransformToAncestor(_canvas);
         rect2 = transform2.TransformBounds(rect2);
 
-        return rect1.IntersectsWith(rect2);
+        if (rect1.IntersectsWith(rect2) == false)
+            return false;
+        
+        pointOfContact = CalculatePointOfContact(rect1, rect2);
+        return true;
+    }
+
+    private static CustomPoint CalculatePointOfContact(Rect rect1, Rect rect2)
+    {
+        var intersectionRect = Rect.Intersect(rect1, rect2);
+
+        return new CustomPoint(intersectionRect.X + intersectionRect.Width / 2,
+            intersectionRect.Y + intersectionRect.Height / 2);
     }
 }

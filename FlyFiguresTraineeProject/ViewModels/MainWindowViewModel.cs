@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Media;
+using System.Text.Json;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FlyFiguresTraineeProject.Events;
@@ -161,6 +163,10 @@ public class MainWindowViewModel : ViewModelBase
     
     private void FiguresTouchedEventHandler(object? o, FiguresTouchedEventArgs args)
     {
+        Console.WriteLine("=================");
+        SystemSounds.Beep.Play();
+        Console.WriteLine($@"Coord: {JsonSerializer.Serialize(args.PointOfContact)}");
         Console.WriteLine($@"Figure {args.Sender.GetType().Name}({Figures.IndexOf(args.Sender)}) touched {args.TouchedThe.GetType().Name}({Figures.IndexOf(args.TouchedThe)})");
+        Console.WriteLine("=================");
     }
 }
