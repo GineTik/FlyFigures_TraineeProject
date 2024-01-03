@@ -19,4 +19,14 @@ public struct CustomPoint
         X = x;
         Y = y;
     }
+
+    public bool Equals(CustomPoint other)
+    {
+        return X.Equals(other.X) && Y.Equals(other.Y);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
+    }
 }

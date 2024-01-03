@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Controls;
+using FlyFiguresTraineeProject.Exceptions;
+using FlyFiguresTraineeProject.Logging;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
 
 namespace FlyFiguresTraineeProject.Figures;
@@ -56,7 +58,16 @@ public class FigureCollection : IReadOnlyCollection<MovableFigure>, INotifyColle
     {
         foreach (var figure in _figures)
         {
-            figure.Move();
+            try
+            {
+                figure.Move();
+            }
+            catch (FigureOutsideCanvasException exception)
+            {
+                FileLogger.Log<FigureCollection>($@"Figure({_figures.IndexOf(exception.Sender)}): {exception.Message}");
+                Console.WriteLine($@"Figure({_figures.IndexOf(exception.Sender)}): {exception.Message}");
+            }
+            
             figure.Draw();
         }
     }

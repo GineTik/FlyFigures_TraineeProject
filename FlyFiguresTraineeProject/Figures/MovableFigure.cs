@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Shapes;
 using FlyFiguresTraineeProject.Events;
+using FlyFiguresTraineeProject.Exceptions;
 using FlyFiguresTraineeProject.Figures.Configuration;
 using FlyFiguresTraineeProject.Figures.Systems;
 using FlyFiguresTraineeProject.Saving.Models.Snapshots;
@@ -14,20 +16,20 @@ public abstract class MovableFigure
 {
     protected static int DefaultSpeed => 3;
     
-    private Canvas _context = null!;
+    private Canvas _canvas = null!;
     private CustomPoint _direction;
     private IReadOnlyCollection<MovableFigure> _figuresOfContext = null!;
     private FigureIntersectSystem _intersectSystem = null!;
     private FigureReflectionSystem _reflectionSystem = null!;
+    private PushingInsideSystem _pushingInsideSystem = null!;
     
     public Shape Shape { get; }
     public FigureData FigureData { get; private set; }
     public bool InMotion { get; set; }
     public CustomPoint CurrentPosition { get; private set; }
-    
-    protected int Speed { get; set; }
-    protected CustomPoint ExtremeLimit => new(_context.ActualWidth, _context.ActualHeight);
-    protected CustomPoint Direction => _direction;
+    public CustomPoint ExtremeLimit => new(_canvas.ActualWidth, _canvas.ActualHeight);
+    public int Speed { get; protected set; }
+    public CustomPoint Direction => _direction;
     
     public event EventHandler<FiguresTouchedEventArgs>? FiguresTouched;
 
@@ -48,30 +50,41 @@ public abstract class MovableFigure
         InMotion = snapshot.InMotion;
     }
 
-    public void Initialization(Canvas context, IReadOnlyCollection<MovableFigure> figures)
+    public void Initialization(Canvas canvas, IReadOnlyCollection<MovableFigure> figures)
     {
-        _context = context;
+        _canvas = canvas;
         _figuresOfContext = figures;
-        _intersectSystem = new FigureIntersectSystem(this, _context, _figuresOfContext);
-        _reflectionSystem = new FigureReflectionSystem(this);
+        _intersectSystem = new FigureIntersectSystem(this, _canvas, _figuresOfContext);
+        _reflectionSystem = new FigureReflectionSystem(this, _canvas);
+        _pushingInsideSystem = new PushingInsideSystem(this);
         
-        CurrentPosition = new CustomPoint((context.ActualWidth - Shape.ActualWidth) / 2, (context.ActualHeight - Shape.ActualHeight) / 2);
+        CurrentPosition = new CustomPoint((canvas.ActualWidth - Shape.ActualWidth) / 2, (canvas.ActualHeight - Shape.ActualHeight) / 2);
         Draw();
-        _context.Children.Add(Shape);
+        _canvas.Children.Add(Shape);
     }
 
     public void Move()
     {
         if (InMotion == false)
             return;
+
+        if (Shape.ActualWidth >= ExtremeLimit.X
+            || Shape.ActualHeight >= ExtremeLimit.Y)
+            return;
         
         CurrentPosition = new CustomPoint(
             CurrentPosition.X + _direction.X * Speed,
             CurrentPosition.Y + _direction.Y * Speed);
-
-        if (_reflectionSystem.CheckBoundaryTouch(ExtremeLimit))
+        
+        if (_pushingInsideSystem.CheckExitFromBoundary())
         {
-            _direction = _reflectionSystem.UpdateDirection(Direction, ExtremeLimit);
+            CurrentPosition = _pushingInsideSystem.UpdatePosition();
+            throw new FigureOutsideCanvasException(this);
+        }
+        
+        if (_reflectionSystem.CheckBoundaryTouch())
+        {
+            _direction = _reflectionSystem.UpdateDirection();
             TouchedBoundary();
         }
         
